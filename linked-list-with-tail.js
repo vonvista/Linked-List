@@ -175,7 +175,8 @@ class LinkedList {
     this.tail = node;
     
     
-    await this.adjustAtNodeForward(this.head)
+    //await node.movePos(this.tail.x, this.tail.y - boxSize - 10)
+    await this.adjustAtNodeForward(this.head) 
   }
   async insertAtHead(element){
 
@@ -351,7 +352,7 @@ class LinkedList {
         current.movePos(posX, posY)
       }
       posX += nodeDistX
-      await sleep(20)
+      await sleep(2)
       
       current = current.next;
     }
