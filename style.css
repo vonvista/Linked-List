@@ -17,6 +17,8 @@
   color: #953eb0; /* 149, 62, 176 */
   color: #6ab03e; /* 106, 176, 62 */
   color: #abb03e; /* 171, 176, 62 */
+
+  color: rgb(106, 179, 235);
 }
 
 /* body::-webkit-scrollbar {
