@@ -601,7 +601,7 @@ async function setup() {
 
   rectMode(CENTER)
   textAlign(CENTER, CENTER)
-
+  pixelDensity(displayDensity());
 }
 
 function draw() {

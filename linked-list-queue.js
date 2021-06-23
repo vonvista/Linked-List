@@ -601,7 +601,7 @@ async function setup() {
 
   rectMode(CENTER)
   textAlign(CENTER, CENTER)
-
+  pixelDensity(displayDensity());
 }
 
 function draw() {
@@ -623,6 +623,7 @@ function draw() {
   text("CUT", windowWidth - pageCutX + 20, 20)
 
   fill(WHITE)
+  noStroke()
   textAlign(LEFT, TOP)
   text(statusText, 10, 10)
 
