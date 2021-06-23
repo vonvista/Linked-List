@@ -21,6 +21,7 @@ const BASE_BLUE = [41, 89, 126]
 const LIGHT_YELLOW = [171, 176, 62]
 const WHITE = [255, 255, 255]
 const LIGHT_ORANGE = [176, 128, 62]
+const LIGHT_VIOLET = [149, 62, 176]
 
 function sleep(ms){
   return new Promise(resolve => setTimeout(resolve,ms));
@@ -99,7 +100,7 @@ class LinkedList {
     this.size = 0;
     this.x = headXinit
     this.y = headYinit
-    this.color = LIGHT_ORANGE
+    this.color = LIGHT_VIOLET
     this.offsetY = boxSize/2;
   }
 
@@ -114,10 +115,19 @@ class LinkedList {
     fill(255)
     text("H", this.x + boxSize/2, this.y + boxSize/2)
 
+    strokeWeight(1)
+    stroke(28, 42, 53)
+    fill(this.color[0], this.color[1], this.color[2])
+    rect(this.x + boxSize/2 + nodeDistX, this.y + boxSize/2, boxSize, boxSize)
+    rect(this.x + boxSize + boxSize/2 + nodeDistX, this.y + boxSize/2, boxSize, boxSize)
+    noStroke()
+    fill(255)
+    text("T", this.x + boxSize/2 + nodeDistX, this.y + boxSize/2)
+
     //LINE
     if(this.head != null){
-      stroke(WHITE)
-      fill(WHITE)
+      stroke(106, 179, 235)
+      fill(106, 179, 235)
       //strokeWeight(3);
       line(this.x + boxSize + boxSize/2, this.y + this.offsetY, this.head.x, this.head.y + this.offsetY)
       push() //start new drawing state
@@ -128,55 +138,44 @@ class LinkedList {
       triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
       pop();
     }
+
+    if(this.tail != null){
+      stroke(106, 179, 235)
+      fill(106, 179, 235)
+      //strokeWeight(3);
+      line(this.x + boxSize + boxSize/2 + nodeDistX, this.y + this.offsetY, this.tail.x, this.tail.y + this.offsetY)
+      push() //start new drawing state
+      var offset = 8
+      var angle = atan2(this.y - this.tail.y, this.x + boxSize + boxSize/2 - this.tail.x + nodeDistX);
+      translate((this.x + boxSize + boxSize/2 + this.tail.x + nodeDistX)/2, (this.y + this.tail.y)/2 + this.offsetY);
+      rotate(angle-HALF_PI); //rotates the arrow point
+      triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
+      pop();
+    }
   }
 
   async insertAtTail(element) {
     // creates a new node
     
-    var posX = posXinit
-    var posY = posYinit
 
-    var node = new Node(element, -50, posY);
+    var node = new Node(element, -50, posYinit);
     nodes.push(node)
-    await node.movePos(posX, posY + boxSize + 10)
-
-    // to store current node
-    var current;
-
-    // if list is Empty add the
-    // element and make it head
-    if (this.head == null) {
-      await node.movePos(posX, posY)
-      this.head = node;
+    
+    if (this.tail) {
+      await node.movePos(this.tail.x, this.tail.y + boxSize + 10)
+      this.tail.next = node
+      
     }
     else {
-      current = this.head;
-
-      // iterate to the end of the
-      // list
-      posX += nodeDistX
-      await node.movePos(posX, posY + boxSize + 10)
-
-      while (current.next) {
-        posX += nodeDistX
-        if(posX + nodeDistX < windowWidth - pageCutX) {
-          await node.movePos(posX, posY + boxSize + 10)
-        }
-        else {
-          posX = posXinit
-          posY += nodeDistY
-          await node.movePos(posX, posY + boxSize + 10)
-        }
-        
-
-        current = current.next;
-      }
-
-      await node.movePos(posX, posY)
-      // add node
-      current.next = node;
+      await node.movePos(posXinit, posYinit + boxSize + 10)
+      this.head = node;
+      
     }
-    this.size++;
+
+    this.tail = node;
+    
+    
+    await this.adjustAtNodeForward(this.head)
   }
   async insertAtHead(element){
 
@@ -184,8 +183,12 @@ class LinkedList {
     nodes.unshift(node)
     await node.movePos(posXinit, posYinit + boxSize + 10)
     await sleep(70)
+    
     node.next = this.head
+
+    if(!this.head) this.tail = node
     this.head = node
+
     await this.adjustAtNodeForward(this.head)
   }
 
@@ -198,6 +201,7 @@ class LinkedList {
       await this.head.movePos(this.head.x, this.head.y + boxSize + 10)
       await this.head.movePos(-100, this.head.y)
       this.head = null;
+      this.tail = null;
       nodes.pop()
       return
     }
@@ -213,6 +217,7 @@ class LinkedList {
     }
     await sNode.movePos(node.x, node.y + boxSize + 10)
     previous.next = null;
+    this.tail = previous;
     await sNode.movePos(-100, sNode.y)
     await node.movePos(node.x, node.y + boxSize + 10)
     await node.movePos(-100, node.y)
@@ -233,10 +238,9 @@ class LinkedList {
     
     this.head = this.head.next;
     del.next = null
+    if(!this.head) this.tail = null;
     await del.movePos((boxSize * -2) - 10, del.y)
-    // for(let [index, node] of nodes.entries()){
-    //   if(del == node) nodes.splice(index, 1)
-    // }
+
     nodes.shift()
 
     if(this.head != null) this.adjustAtNodeForward(this.head)
@@ -640,7 +644,7 @@ function mousePressed() {
   // console.log(mouseX, mouseY)
   if (mouseButton === RIGHT) {
     //ll.printList()
-    // console.log(nodes)
+    console.log(nodes)
   }
 }
 
