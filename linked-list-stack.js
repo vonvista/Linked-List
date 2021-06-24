@@ -366,7 +366,6 @@ class LinkedList {
   }
 }
 
-
 class Node {
   constructor(value, x, y) {
     this.value = value;
@@ -374,8 +373,6 @@ class Node {
     this.color = BASE_BLUE 
     this.x = x
     this.y = y
-    this.arrowAnim = false;
-    this.dynamic = false;
     this.endx = x
     this.endy = y
     this.offsetY = boxSize/2
@@ -391,41 +388,40 @@ class Node {
     text(this.value, this.x + boxSize/2, this.y + boxSize/2)
 
     if(this.next != null){
-      
-      if(this.arrowAnim == false) {
-        this.createArrowAnim()
-        this.arrowAnim = true
-      }
-
-      if(this.dynamic){
-        stroke(WHITE)
-        fill(WHITE)
-        //strokeWeight(3);
-        line(this.x + boxSize + boxSize/2, this.y + this.offsetY, this.next.x, this.next.y + this.offsetY)
-        push() //start new drawing state
-        var offset = 8
-        var angle = atan2(this.y - this.next.y, this.x + boxSize + boxSize/2 - this.next.x);
-        translate((this.x + boxSize + boxSize/2 + this.next.x)/2, (this.y + this.next.y)/2 + this.offsetY);
-        rotate(angle-HALF_PI); //rotates the arrow point
-        triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
-        pop();
+      // console.log(this.endx == this.next.x)
+      //console.log(Math.round(this.endx) == Math.round(this.next.x))
+      if(Math.round(this.endx) != Math.round(this.next.x)){
+        this.endx = this.endx + (this.next.x - this.endx) * easing
+        this.endy = this.endy + (this.next.y - this.endy) * easing
       }
       else {
-        stroke(WHITE)
-        fill(WHITE)
-        //strokeWeight(3);
-        line(this.x + boxSize + boxSize/2, this.y + this.offsetY, this.endx, this.endy + this.offsetY)
-        push() //start new drawing state
-        var offset = 8
-        var angle = atan2(this.y - this.endy, this.x + boxSize + boxSize/2 - this.endx);
-        translate((this.x + boxSize + boxSize/2 + this.endx)/2, (this.y + this.endy)/2 + this.offsetY);
-        rotate(angle-HALF_PI); //rotates the arrow point
-        triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
-        pop();  
+        this.endx = this.next.x
+        this.endy = this.next.y
       }
+
+      stroke(WHITE)
+      fill(WHITE)
+      //strokeWeight(3);
+      line(this.x + boxSize + boxSize/2, this.y + this.offsetY, this.endx, this.endy + this.offsetY)
+      push() //start new drawing state
+      var offset = 8
+      var angle = atan2(this.y - this.endy, this.x + boxSize + boxSize/2 - this.endx);
+      translate((this.x + boxSize + boxSize/2 + this.endx)/2, (this.y + this.endy)/2 + this.offsetY);
+      rotate(angle-HALF_PI); //rotates the arrow point
+      triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
+      pop();  
+      
     }
   }
   async movePos(newX, newY) {
+    if(this.next){
+      this.endx = this.next.x
+      this.endy = this.next.y
+    }
+    else {
+      this.endx = newX
+      this.endy = newY
+    }
     for(let i = 0; i <= (150 / animSpeed); i++){
       this.x = this.x + (newX - this.x) * easing
       this.y = this.y + (newY - this.y) * easing
@@ -434,24 +430,11 @@ class Node {
     
     this.x = newX
     this.y = newY
-    this.endx = newX
-    this.endy = newY
     
-  }
-
-  async createArrowAnim() {
-    for(let i = 0; i <= (150 / animSpeed); i++){
-      this.endx = this.endx + (this.next.x - this.endx) * easing
-      this.endy = this.endy + (this.next.y - this.endy) * easing
-      await sleep(2)
-    }
-    
-    this.endx = this.next.x
-    this.endy = this.next.y
-
-    this.dynamic = true;
   }
 }
+
+
 function handleAdj() { 
   nodeDistX = parseInt(document.getElementById("widthDistAdj").value)
   nodeDistY = parseInt(document.getElementById("heightDistAdj").value)

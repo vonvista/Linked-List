@@ -1,5 +1,5 @@
 var animSpeed = 4
-const easing = 0.05 * animSpeed
+var easing = 0.05 * animSpeed
 const boxSize = 35;
 
 const headXinit = 30;
@@ -374,8 +374,6 @@ class Node {
     this.color = BASE_BLUE 
     this.x = x
     this.y = y
-    this.arrowAnim = false;
-    this.dynamic = false;
     this.endx = x
     this.endy = y
     this.offsetY = boxSize/2
@@ -389,8 +387,6 @@ class Node {
     noStroke()
     fill(255)
     text(this.value, this.x + boxSize/2, this.y + boxSize/2)
-
-    
 
     if(this.next != null){
       // console.log(this.endx == this.next.x)
@@ -420,6 +416,14 @@ class Node {
     }
   }
   async movePos(newX, newY) {
+    if(this.next){
+      this.endx = this.next.x
+      this.endy = this.next.y
+    }
+    else {
+      this.endx = newX
+      this.endy = newY
+    }
     for(let i = 0; i <= (150 / animSpeed); i++){
       this.x = this.x + (newX - this.x) * easing
       this.y = this.y + (newY - this.y) * easing
@@ -429,24 +433,9 @@ class Node {
     this.x = newX
     this.y = newY
     
-    // this.endx = newX
-    // this.endy = newY
-    
-  }
-
-  async createArrowAnim() {
-    for(let i = 0; i <= (150 / animSpeed); i++){
-      this.endx = this.endx + (this.next.x - this.endx) * easing
-      this.endy = this.endy + (this.next.y - this.endy) * easing
-      console.log(this.endx == this.next.x)
-      await sleep(2)
-    }
-    this.endx = this.next.x
-    this.endy = this.next.y
-
-    this.dynamic = true;
   }
 }
+
 function handleAdj() { 
   nodeDistX = parseInt(document.getElementById("widthDistAdj").value)
   nodeDistY = parseInt(document.getElementById("heightDistAdj").value)
@@ -618,6 +607,9 @@ function draw() {
   background(28, 42, 53);
   textAlign(CENTER, CENTER)
   ll.draw();
+
+  //update easing
+  easing = 0.05 * animSpeed
 
   for(node of nodes){
     node.draw()
