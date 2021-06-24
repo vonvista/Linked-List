@@ -171,7 +171,7 @@ class LinkedList {
       this.head = node;
       
     }
-
+    node.prev = this.tail
     this.tail = node;
     
     
@@ -187,46 +187,42 @@ class LinkedList {
     
     node.next = this.head
 
-    if(!this.head) this.tail = node
+    if(!this.head) {
+      this.head = node
+      this.tail = node
+      await this.adjustAtNodeForward(this.head)
+      return
+    }
+    this.head.prev = node
     this.head = node
+    
 
     await this.adjustAtNodeForward(this.head)
   }
 
   async deleteAtTail(){
-    if (!this.head) {
+    var del = this.tail
+    if(!del){
       return;
     }
-   
-    if (!this.head.next) {
-      await this.head.movePos(this.head.x, this.head.y + boxSize + 10)
-      await this.head.movePos(-100, this.head.y)
-      this.head = null;
-      this.tail = null;
-      nodes.pop()
-      return
-    }
-    let previous = this.head;
-    let node = this.head.next;
     
-   
-    while (node.next) {
-      await sNode.movePos(node.x, node.y + boxSize + 10)
-      previous = node;
-      node = node.next;
-      
+    this.tail = del.prev;
+    
+    if(!this.tail) {
+      this.head = null;
+      await del.movePos(-100, del.y)
+      nodes.pop()
+      return;
     }
-    await sNode.movePos(node.x, node.y + boxSize + 10)
-    previous.next = null;
-    this.tail = previous;
-    await sNode.movePos(-100, sNode.y)
-    await node.movePos(node.x, node.y + boxSize + 10)
-    await node.movePos(-100, node.y)
-    nodes.pop()  
 
-    //RETURN INITIAL POSITION OF sNode
-    sNode.x = -100
-    sNode.y = posYinit
+    
+    this.tail.next = null
+    del.prev = null;
+    await del.movePos(del.x, del.y + boxSize + 10)
+    await del.movePos(-100, del.y)
+    nodes.pop()
+
+    // if(this.head != null) this.adjustAtNodeForward(this.head)
   }
 
   async deleteAtHead(){
@@ -234,107 +230,22 @@ class LinkedList {
     if(!del){
       return;
     }
-    //del.movePos(-50, posYinit)
-    
     
     this.head = this.head.next;
-    del.next = null
-    if(!this.head) this.tail = null;
-    await del.movePos((boxSize * -2) - 10, del.y)
+    
+    if(!this.head) {
+      this.tail = null;
+      await del.movePos((boxSize * -2) - 10, del.y)
+      nodes.pop()
+      return;
+    }
 
+    del.next = null
+    this.head.prev = null;
+    await del.movePos((boxSize * -2) - 10, del.y)
     nodes.shift()
 
     if(this.head != null) this.adjustAtNodeForward(this.head)
-  }
-
-  async getAt(index, animNode){
-    let counter = 0;
-    let node = this.head;
-    while (node) {
-      await animNode.movePos(node.x, node.y + boxSize + 10)
-      console.log("time")
-      if (counter == index) {
-        if(node.x + nodeDistX < windowWidth - pageCutX) {
-          await animNode.movePos(node.x + nodeDistX, node.y + boxSize + 10)
-        }
-        else {
-          await animNode.movePos(node.x + nodeDistX, node.y + nodeDistY + boxSize + 10)
-        }
-
-
-        return node;
-      }
-      counter++;
-      node = node.next;
-    }
-    return null;
-  }
-
-  async insertAtIndex(data, index){
-    // if the list is empty i.e. head = null
-    var posX = posXinit
-    var posY = posYinit
-
-    //await node.movePos(posX, posY + boxSize + 10)
-
-    if (!this.head) {
-      this.insertAtHead(index)
-      return;
-    }
-    // if new node needs to be inserted at the front of the list i.e. before the head. 
-    if (index == 0) {
-      this.insertAtHead(index)
-      return;
-    }
-    // else, use getAt() to find the previous node.
-    let newNode = new Node(data, -100, posYinit);
-    nodes.splice(index, 0, newNode);
-
-    const previous = await this.getAt(index - 1, newNode);
-
-    if(!previous){
-      await newNode.movePos(-100, newNode.y)
-      nodes.pop();
-      return 
-    }
-    newNode.next = previous.next;
-    previous.next = newNode;       
-
-    await this.adjustAtNodeForward(this.head)
-  }
-
-  async deleteAtIndex(index){
-    if (!this.head) {
-      this.deleteAtHead()
-      return;
-    }
-    if (index === 0) {
-      this.deleteAtHead()
-      return;
-    }
-
-    const previous = await this.getAt(index - 1, sNode);
-    
-    if (!previous || !previous.next) {
-      await sNode.movePos(-100, sNode.y)
-      sNode.x = -100
-      sNode.y = posYinit
-      return;
-    }
-
-    await sNode.movePos(-100, sNode.y)
-    await previous.next.movePos(previous.next.x, previous.next.y + boxSize + 10)
-    await previous.next.movePos(-100, previous.next.y)
-    
-    previous.next = previous.next.next; 
-    
-    nodes.splice(index, 1)
-
-    //RETURN INITIAL POSITION OF sNode
-    sNode.x = -100
-    sNode.y = posYinit
-
-    await this.adjustAtNodeForward(this.head)
   }
 
   async adjustAtNodeForward(current) {
@@ -366,19 +277,51 @@ class LinkedList {
   }
 }
 
-
 class Node {
   constructor(value, x, y) {
     this.value = value;
     this.next = null;
+    this.prev = null;
     this.color = BASE_BLUE 
+    this.offsetY = boxSize/2
     this.x = x
     this.y = y
-    this.endx = x
-    this.endy = y
-    this.offsetY = boxSize/2
+    this.nEndX = x
+    this.nEndY = y
+    this.pEndX = x
+    this.pEndY = y
+    
   }
   async draw() {
+
+    if(this.prev != null){
+      // console.log(this.endx == this.next.x)
+      //console.log(Math.round(this.endx) == Math.round(this.next.x))
+      if(Math.ceil(this.pEndX) != Math.ceil(this.prev.x + boxSize + boxSize/2)){
+        console.log("NARITO")
+        this.pEndX = this.pEndX + (this.prev.x + boxSize + boxSize/2 - this.pEndX) * easing
+        this.pEndY = this.pEndY + (this.prev.y + 7 - this.pEndY) * easing
+      }
+      else {
+        
+        this.pEndX = this.prev.x + boxSize + boxSize/2 
+        this.pEndY = this.prev.y + 7
+      }
+
+      stroke(WHITE)
+      fill(WHITE)
+      //strokeWeight(3);
+      line(this.x, this.y + this.offsetY + 7, this.pEndX, this.pEndY + this.offsetY)
+      push() //start new drawing state
+      var offset = 8
+      var angle = atan2(this.y - this.pEndY + 7, this.x - this.pEndX);
+      translate((this.x + this.pEndX)/2, (this.y + this.pEndY + 7)/2 + this.offsetY);
+      rotate(angle-HALF_PI); //rotates the arrow point
+      triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
+      pop();  
+    }
+
+
     strokeWeight(1)
     stroke(28, 42, 53)
     fill(this.color[0], this.color[1], this.color[2])
@@ -391,39 +334,50 @@ class Node {
     if(this.next != null){
       // console.log(this.endx == this.next.x)
       //console.log(Math.round(this.endx) == Math.round(this.next.x))
-      if(Math.round(this.endx) != Math.round(this.next.x)){
-        console.log("Here")
-        this.endx = this.endx + (this.next.x - this.endx) * easing
-        this.endy = this.endy + (this.next.y - this.endy) * easing
+      if(Math.round(this.nEndX) != Math.round(this.next.x)){
+        this.nEndX = this.nEndX + (this.next.x - this.nEndX) * easing
+        this.nEndY = this.nEndY + (this.next.y - 7 - this.nEndY) * easing
       }
       else {
-        this.endx = this.next.x
-        this.endy = this.next.y
+        this.nEndX = this.next.x
+        this.nEndY = this.next.y - 7
       }
 
       stroke(WHITE)
       fill(WHITE)
       //strokeWeight(3);
-      line(this.x + boxSize + boxSize/2, this.y + this.offsetY, this.endx, this.endy + this.offsetY)
+      line(this.x + boxSize + boxSize/2, this.y + this.offsetY - 7, this.nEndX, this.nEndY + this.offsetY)
       push() //start new drawing state
       var offset = 8
-      var angle = atan2(this.y - this.endy, this.x + boxSize + boxSize/2 - this.endx);
-      translate((this.x + boxSize + boxSize/2 + this.endx)/2, (this.y + this.endy)/2 + this.offsetY);
+      var angle = atan2(this.y - this.nEndY - 7, this.x + boxSize + boxSize/2 - this.nEndX);
+      translate((this.x + boxSize + boxSize/2 + this.nEndX)/2, (this.y + this.nEndY - 7)/2 + this.offsetY);
       rotate(angle-HALF_PI); //rotates the arrow point
       triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
       pop();  
-      
     }
+
   }
   async movePos(newX, newY) {
     if(this.next){
-      this.endx = this.next.x
-      this.endy = this.next.y
+      this.nEndX = this.next.x
+      this.nEndY = this.next.y
     }
     else {
-      this.endx = newX
-      this.endy = newY
+      this.nEndX = newX
+      this.nEndY = newY
     }
+
+    if(this.prev){
+
+      this.pEndX = this.prev.x + boxSize + boxSize/2
+      this.pEndY = this.prev.y + 7
+    }
+    else {
+      this.pEndX = newX
+      this.pEndY = newY
+    }
+
+
     for(let i = 0; i <= (150 / animSpeed); i++){
       this.x = this.x + (newX - this.x) * easing
       this.y = this.y + (newY - this.y) * easing
@@ -587,9 +541,10 @@ async function setup() {
   textAlign(CENTER, CENTER)
 
   // nodes.push(new Node(2, 10, 10));
-  // await ll.insertAtHead(4)
-  // await ll.insertAtHead(5)
-  // await ll.insertAtHead(6)
+  await ll.insertAtHead(4)
+  await ll.insertAtHead(5)
+  await ll.insertAtHead(6)
+
   // await ll.insertAtHead(7)
   // await ll.insertAtTail(8)
   // await ll.insertAtTail(9)
