@@ -21,7 +21,7 @@ const BASE_BLUE = [41, 89, 126]
 const LIGHT_YELLOW = [171, 176, 62]
 const WHITE = [255, 255, 255]
 const LIGHT_ORANGE = [176, 128, 62]
-const LIGHT_VIOLET = [149, 62, 176]
+const LIGHT_RED = [176, 62, 62]
 
 function sleep(ms){
   return new Promise(resolve => setTimeout(resolve,ms));
@@ -100,7 +100,7 @@ class LinkedList {
     this.size = 0;
     this.x = headXinit
     this.y = headYinit
-    this.color = LIGHT_VIOLET
+    this.color = LIGHT_RED
     this.offsetY = boxSize/2;
   }
 
@@ -438,9 +438,8 @@ async function handleInsertAtTail() {
     enableButtonControls()
     return
   }
-  statusText = "Running: Insert at Tail(" + parseInt(element) + ")"
+  statusText = "Running: Insert at Tail(" + element + ")"
   await ll.insertAtTail(element)
-  console.log("YES")
   enableButtonControls()
 }
 
@@ -452,9 +451,8 @@ async function handleInsertAtHead() {
     enableButtonControls()
     return
   }
-  statusText = "Running: Insert at Head(" + parseInt(element) + ")"
+  statusText = "Running: Insert at Head(" + element + ")"
   await ll.insertAtHead(element)
-  console.log("YES")
   enableButtonControls()
 }
 
@@ -495,7 +493,7 @@ async function handleInsertAtIndex() {
     enableButtonControls()
     return
   }
-  statusText = "Running: Insert " + parseInt(element) + " at Index " + parseInt(index)
+  statusText = "Running: Insert " + element + " at Index " + index
   await ll.insertAtIndex(element, parseInt(index))
 
   enableButtonControls()
@@ -509,7 +507,7 @@ async function handleDeleteAtIndex() {
     enableButtonControls()
     return
   }
-  statusText = "Running: Delete At Index " + parseInt(index)
+  statusText = "Running: Delete At Index " + index
   await ll.deleteAtIndex(parseInt(index))
 
   enableButtonControls()

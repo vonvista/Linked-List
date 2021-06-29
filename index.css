@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+/* FOR PALETTE ONLY, NOT FOR USE */
+.colors {
+  /*DARK*/
+  color: #29597e; /* 41, 89, 126 */
+  color: #7e5729; /* 126, 87, 41 */
+  color: #7e2929; /* 126, 41, 41 */
+  color: #67297e; /* 103, 41, 126 */
+  color: #477e29; /* 71, 126, 41 */
+  color: #797e29; /* 121, 126, 41 */
+
+  /*LIGHT*/
+  color: #3e83b0; /* 62, 131, 176 */
+  color: #b0803e; /* 176, 128, 62 */
+  color: #b03e3e; /* 176, 62, 62 */
+  color: #953eb0; /* 149, 62, 176 */
+  color: #6ab03e; /* 106, 176, 62 */
+  color: #abb03e; /* 171, 176, 62 */
+
+  color: rgb(106, 179, 235);
+}
+
+/* body::-webkit-scrollbar {
+  display: none;
+} */
+
+
+img {
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -o-crisp-edges; /* Opera */
+  image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+}
+
+text {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+
+svg {
+  overflow: visible;
+  display: block;
+  width: 100%;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #171e24;
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+}
+
+canvas {
+  display: block;
+  position: relative;
+}
+
+h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bolder;
+
+  color: white;
+  margin: 10px 30px 5px;
+
+}
+
+button {
+  background: none;
+	color: inherit;
+  background-color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.headerContainer {
+  border-radius: 5px;
+  font-size: 12px;
+  margin: 10px 2px 0px;
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight:bold;
+  padding: 1vh;
+  background-color:#115153;
+}
+
+p, a {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  color: white;
+  margin-left: 2px;
+  margin-right: 5px;
+}
+
+.indexHeadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.indexSelection {
+  background-color: #243542;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: center;
+  align-content: flex-start;
+  justify-content: center;
+  padding: 10px;
+  margin: 0px;
+  flex-basis: 33%;
+}
+
+.indexButtonContainer {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  transition: .5s ease;
+  margin: 10px;
+}
+
+.indexButtonContainer:hover .indexOverlay {
+  opacity: 1
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.indexOverlay {
+  width: 100%;
+  height: 100%;
+  background: #387bad; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: .5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white
+}
