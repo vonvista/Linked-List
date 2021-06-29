@@ -50,6 +50,7 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: #171e24;
+  background-color: #243542;
   font-family: 'Open Sans', sans-serif;
   height: 100%;
 }
@@ -104,6 +105,7 @@ p, a {
   align-items: center;
   text-align: center;
   justify-content: center;
+  background-color: #171e24;
 }
 
 .indexSelection {
