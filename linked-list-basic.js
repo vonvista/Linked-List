@@ -13,7 +13,7 @@ var posYinit = headYinit + nodeDistY;
 
 var pageCutX = 600;
 
-var controlsHeight = document.getElementById("controlPanel").offsetHeight 
+var controlsHeight = document.getElementById("controlMain").offsetHeight
 
 //COLORS
 const YELLOW = [255, 242, 0]
@@ -571,7 +571,7 @@ function preload() {
 
 async function setup() {
   //createCanvas(400, 400);
-  let cnv = createCanvas(windowWidth, windowHeight - controlsHeight * 2);
+  let cnv = createCanvas(windowWidth, windowHeight - controlsHeight);
   cnv.parent("sketchHolder");
   console.log(cnv)
 
@@ -628,8 +628,8 @@ function mousePressed() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight - controlsHeight * 2);
-  console.log("Yeah")
+  controlsHeight = document.getElementById("controlMain").offsetHeight 
+  resizeCanvas(windowWidth, windowHeight - controlsHeight)
 }
 
 
