@@ -576,7 +576,7 @@ function preload() {
 
 async function setup() {
   //createCanvas(400, 400);
-  let cnv = createCanvas(windowWidth, windowHeight - controlsHeight);
+  let cnv = createCanvas(windowWidth, windowHeight - controlsHeight * 2);
   cnv.parent("sketchHolder");
   console.log(cnv)
 
@@ -622,7 +622,7 @@ function mousePressed() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, windowHeight - controlsHeight * 2);
 }
 
 
