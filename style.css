@@ -21,11 +21,6 @@
   color: rgb(106, 179, 235);
 }
 
-/* body::-webkit-scrollbar {
-  display: none;
-} */
-
-
 img {
   image-rendering: -moz-crisp-edges; /* Firefox */
   image-rendering: -o-crisp-edges; /* Opera */
@@ -52,6 +47,7 @@ html, body {
   background-color: #171e24;
   font-family: 'Open Sans', sans-serif;
   height: 100%;
+  overflow-x: hidden;
 }
 
 canvas {
@@ -59,7 +55,7 @@ canvas {
   position: relative;
 }
 
-button {
+.buttonControls {
   background-color:#29597e;
   border: none;
   color: white;
@@ -73,15 +69,34 @@ button {
   font-family: 'Open Sans', sans-serif;
   font-weight:normal;
   margin: 3px;
+  white-space: nowrap;
+
+  transition: all 0.2s ease;
+}
+
+button:active {
+  animation-direction: alternate;
+  transform: scale(0.9);
+  transition: transform 0.1s ease;
+}
+
+button:disabled {
+  animation-direction: alternate;
+  opacity: 0.5;
+  transition: opacity 0.1s ease;
 }
 
 h1 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bolder;
-
+  flex-shrink: 0;
   color: white;
-  margin: 10px 30px 5px;
+  margin: 0px 5px 5px 30px;
+}
 
+#subMainTitle {
+  font-weight: normal; 
+  font-size: 14px;
 }
 
 .headerContainer {
@@ -102,7 +117,6 @@ h1 {
 }
 
 form {
-  background-color:#29597e;
   border: none;
   color: white;
   padding: 1.7vh;
@@ -116,7 +130,6 @@ form {
 }
 
 .input_field {
-  background-color:#29597e;
   border: none;
   color: white;
   text-align: center;
@@ -125,14 +138,13 @@ form {
   font-size: 12px;
   font-family: 'Open Sans', sans-serif;
   font-weight:normal;
-  padding: 1.3vh;
-  margin: 3px;
-  height: 100%;
+  padding: 10px;
+  height: 100% - 10px;
   width: 60px;
+  margin: 3px;
 }
 
 .num_field {
-  background-color:#29597e;
   border: none;
   color: white;
   text-align: center;
@@ -141,20 +153,20 @@ form {
   font-size: 12px;
   font-family: 'Open Sans', sans-serif;
   font-weight:normal;
-  padding: 1.3vh;
+  padding: 10px;
   margin: 3px;
-  height: 100%;
+  height: 100% - 10px;
   width: 50px;
 }
 
 
 
-p, a {
+p {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   color: white;
-  margin-left: 2px;
-  margin-right: 5px;
+  margin: 0px 2px 0px 5px;
+  flex-shrink: 0;
 }
 
 .controls {
@@ -163,14 +175,39 @@ p, a {
   align-items:center;
   margin: 0px 30px 5px;
   padding: 0px;
+  height: 40px;
 }
 
-.selection {
-  display: inline-flex;
+.titleSection {
+  display: flex;
   background-color: #171e24;
-  align-items:center;
-  margin: 0px 30px 0px;
-  padding: 0px;
+  align-items:baseline;
+  margin: 0px;
+  padding: 10px 0px 15px 0px;
+  height: 45px;
+  width: 100%;
+}
+
+.titleSectionLinks {
+  height: inherit; 
+  width: 100%;
+  display: flex; 
+  justify-content: flex-end; 
+  align-items:baseline;
+  flex-direction: row;
+  padding-right: 15px;
+}
+
+.titleSectionLinks a {
+  height: inherit; 
+  justify-content: inherit;
+  align-items: inherit;
+  flex-direction: inherit;
+}
+
+.titleSectionLinks a img {
+  height: 30px;
+  margin-right:5px;
 }
 
 .controlsParent {
@@ -183,6 +220,20 @@ p, a {
   display: flex;
   flex-direction: column;
   margin-bottom: 0px;
+}
+
+.selection {
+  display: inline-flex;
+  background-color: #171e24;
+  align-items:center;
+  margin: 0px 30px 0px;
+  padding: 0px;
+}
+
+.selection a {
+  margin-right: 5px;
+  margin-bottom:0px;
+  background-color:#29597e;
 }
 
 #sketchHolder {
@@ -224,4 +275,36 @@ p, a {
   height: 25px;
   background-color:#7e2929;
   cursor: pointer;
+}
+
+.red-color {
+  background-color: #7e2929;
+}
+
+.orange-color {
+  background-color: #7e5729;
+}
+
+.yellow-color {
+  background-color: #797e29;
+}
+
+.green-color {
+  background-color: #477e29;
+}
+
+.blue-color {
+  background-color: #29597e;
+}
+
+.violet-color {
+  background-color: #67297e;
+}
+
+.selection .cur-color {
+  background-color:#1c2a35;
+}
+
+.bump-left {
+  margin-left:15px;
 }

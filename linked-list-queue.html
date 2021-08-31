@@ -18,19 +18,36 @@
   </head>
   <body>
     <div id="controlMain">
-      <div class="controls" style="align-items: center;margin:0px;"> 
+      <div class="titleSection"> 
+
         <h1>Linked List Visualizer</h1>
-        <p class="headerContainer" style="background-color:#29597e">Queue (Linked List Implementation)</p>
-        <p class="headerContainer">Created by Von Vista</p>
-        <a class="headerContainer" href="https://github.com/VonVista">> Github</a>
-        <a class="headerContainer" href="https://github.com/VonVista/Linked-List">> Project</a>
+        <p id="subMainTitle">by Von Vista</p>
+
+        <div class="titleSectionLinks">
+          <a href="https://www.linkedin.com/in/von-vista-943866141/">
+            <img src="assets/LinkedIn 1.svg">
+          </a>
+
+          <a href="https://github.com/VonVista">
+            <img src="assets/Github 1.svg">   
+          </a>   
+
+          <a href="https://github.com/VonVista">
+            <img src="assets/Code 1.svg">   
+          </a>
+
+          <a>
+            <img src="assets/triple v logo white thick trim.png" style="height: 44px;"> 
+          </a>
+        </div>
+
       </div>
       <div id="controlPanel" class="controlsParent">
         <div class="controls"> 
           <input type="text" id="functionElement" placeholder="Element"
-          class="input_field" style="background-color:#797e29"></input>
-          <button onClick = handleInsertAtTail() class="buttonControls" style="background-color:#797e29">Enqueue</button>
-          <button onClick = handleDeleteAtHead() class="buttonControls" style="background-color:#797e29">Dequeue</button>
+          class="input_field yellow-color"></input>
+          <button onClick = handleInsertAtTail() class="buttonControls yellow-color">Enqueue</button>
+          <button onClick = handleDeleteAtHead() class="buttonControls yellow-color">Dequeue</button>
           
           
         </div>
@@ -38,16 +55,16 @@
           <p>Adjustments: </p>
           <img src="assets/width.png" height=30>
           <input type="number" id="widthDistAdj" placeholder="W"
-          class="num_field" min="90" max="200" value="105" step="10" style="background-color:#67297e" onKeyDown="return false"></input>
+          class="num_field violet-color" min="90" max="200" value="105" step="10" onKeyDown="return false"></input>
           <img src="assets/height.png" height=30>
           <input type="number" id="heightDistAdj" placeholder="W"
-          class="num_field" min="90" max="200" value="105" step="10" style="background-color:#67297e" onKeyDown="return false"></input>
+          class="num_field violet-color" min="90" max="200" value="105" step="10" onKeyDown="return false"></input>
           <img src="assets/cut.png" height=30>
           <input type="number" id="cutoffAdj" placeholder="W"
-          class="num_field" min="0" max="1000" value="600" step="20" style="background-color:#67297e" onKeyDown="return false"></input>
-          <button onClick = handleAdj() class="buttonControls" style="background-color:#67297e">Adjust</button>
+          class="num_field violet-color" min="0" max="1000" value="600" step="20" onKeyDown="return false"></input>
+          <button onClick = handleAdj() class="buttonControls violet-color">Adjust</button>
 
-          <p class="controlsTitle" style="margin-left:10px;">Animation Speed</p>
+          <p class="controlsTitle bump-left">Animation Speed</p>
           <input type="range" oninput=handleSliderAnimChange() min="1" max="20" step="0.25" value="3" class="slider" id="myRange">
           <p class="controlsTitle" id=animSlider></p>
         </div>
@@ -55,31 +72,26 @@
 
       <div class="selectionParent">
         <div class="selection"> 
-          <a href="https://vonvista.github.io/Linked-List/linked-list-basic.html">  
-            <button class="buttonControls" style="background-color:#29597e; margin-right:0px; margin-bottom:0px;">
-              Basic LL</button>
+          <a class="buttonControls" href="https://vonvista.github.io/Linked-List/linked-list-basic.html">
+            Basic LL
           </a>
-          <a href="https://vonvista.github.io/Linked-List/linked-list-with-tail.html">  
-            <button class="buttonControls" style="background-color:#29597e; margin-right:0px; margin-bottom:0px;">
-              LL with Tail</button>
+          <a class="buttonControls" href="https://vonvista.github.io/Linked-List/linked-list-with-tail.html">  
+            LL with Tail
           </a>
-          <a href="https://vonvista.github.io/Linked-List/linked-list-stack.html">  
-            <button class="buttonControls" style="background-color:#29597e; margin-right:0px; margin-bottom:0px;">
-              Stack</button>
+          <a class="buttonControls" href="https://vonvista.github.io/Linked-List/linked-list-stack.html">  
+            Stack
           </a>
-          <a href="https://vonvista.github.io/Linked-List/linked-list-queue.html">  
-            <button class="buttonControls" style="background-color:#1c2a35; margin-right:0px; margin-bottom:0px;">
-              Queue</button>
+          <a class="buttonControls cur-color" href="https://vonvista.github.io/Linked-List/linked-list-queue.html">  
+            Queue
           </a>
-          <a href="https://vonvista.github.io/Linked-List/linked-list-double-link.html">  
-            <button class="buttonControls" style="background-color:#29597e; margin-right:0px; margin-bottom:0px;">
-              Doubly-linked List</button>
+          <a class="buttonControls" href="https://vonvista.github.io/Linked-List/linked-list-double-link.html">  
+            Doubly-linked List
           </a>
         </div>
       </div>
     </div>
 
-    <script src="linked-list-queue.js"></script>
+    <script src="linked-list-basic.js"></script>
     <div id="sketchHolder"></div>
   </body>
 </html>
