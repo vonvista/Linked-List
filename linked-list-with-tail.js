@@ -599,7 +599,7 @@ async function setup() {
   // nodes.push(new Node(3, 120, 10));
 
   // nodes[0].next = nodes[1]
-  pixelDensity(displayDensity());
+  pixelDensity(1);
 }
 
 function draw() {
