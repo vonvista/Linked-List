@@ -15,5 +15,10 @@ A web application visualizing the Linked List ADT (Abstract Data Structure). Bui
 * Adjustable node X distance and Y distance, as well as screen cut-off of linked list for compression
 * Animation speed slider
 
+## Possible Additions
+- ❌ Circular Linked Lists
+
+If there's any features you can suggest, feel free to let me know
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
